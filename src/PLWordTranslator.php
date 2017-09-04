@@ -1,5 +1,5 @@
 <?php 
-namespace Gbs\Translator;
+namespace Gbs\Translation;
 
 class Dialect
 {
@@ -9,7 +9,7 @@ class Dialect
 }
 
 // This class handles all the "per word" processing needed for Pig Latin translation.
-class WordTranslator implements iWordTranslator
+class PLWordTranslator implements iWordTranslator
 {
 	private $text;			// Contains the original text of the word.
 	private $lowerCase;		// Contains the text of the word in lowercase.
@@ -36,7 +36,7 @@ class WordTranslator implements iWordTranslator
 			$defaultDialect->vowelSuffix = "al";
 			$defaultDialect->consonantSuffix = "ay";
 			
-			$this->setDialect($defaultDialect);
+			$this->dialect = $defaultDialect;
 		}
 	}
 	

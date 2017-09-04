@@ -1,5 +1,5 @@
 <?php 
-namespace Gbs\Translator;
+namespace Gbs\Translation;
 
 interface iWordTranslator
 {
@@ -10,13 +10,16 @@ interface iWordTranslator
 
 class Translator
 {	
-	private $wordTranslatorClass;
+//	private $wordTranslatorClass;
+	private $wordTranslator;
 	
 	private $sourceText;
 	
-	public function __construct($wordTranslatorClass)
+//	public function __construct($wordTranslatorClass)
+	public function __construct($wordTranslator)
 	{
-		$this->wordTranslatorClass = $wordTranslatorClass;
+		$this->wordTranslator = $wordTranslator;
+//		$this->wordTranslatorClass = $wordTranslatorClass;
 	}
 	
 	// Translate and return the source text.
@@ -26,11 +29,11 @@ class Translator
 		$inputWords = $this->getWords();
 		$outputWords = [];	
 		
-		$wordTranslator = new $this->wordTranslatorClass();
+//		$wordTranslator = new $this->wordTranslatorClass();
 	
 		foreach($inputWords as $wordText)
 		{	
-			$outputWords[] = $wordTranslator->translate($wordText);
+			$outputWords[] = $this->wordTranslator->translate($wordText);
 		}
 		
 		return $this->reconstructText($outputWords, $inputWords);
