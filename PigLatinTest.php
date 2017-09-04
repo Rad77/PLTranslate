@@ -1,11 +1,8 @@
 <?php 
-//namespace Gbs\Translation;
-
 require_once("src/Translator.php");
 require_once("src/PLWordTranslator.php");
 
 use Gbs\Translation;
-//use Gbs\Translation\PLWordTranslator;
 
 /*
 TODO:
@@ -16,7 +13,7 @@ TODO:
 - Explain that faster more memory efficient would be to process the input serially, parsing the input string chunk-by-chunk
   and spitting out the translation.  For processing very large inputs from file this could load and process from an internal buffer
 - Error handling.
-- Needs to autoload the WordTranslator class?
+
 */
 
 // Tests.

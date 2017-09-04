@@ -3,23 +3,19 @@ namespace Gbs\Translation;
 
 interface iWordTranslator
 {
-//	public function __construct($word);
 	public function translate($word);
 	public function setDialect($dialect);
 }
 
 class Translator
 {	
-//	private $wordTranslatorClass;
 	private $wordTranslator;
 	
 	private $sourceText;
 	
-//	public function __construct($wordTranslatorClass)
 	public function __construct($wordTranslator)
 	{
 		$this->wordTranslator = $wordTranslator;
-//		$this->wordTranslatorClass = $wordTranslatorClass;
 	}
 	
 	// Translate and return the source text.
@@ -28,8 +24,6 @@ class Translator
 		$this->sourceText = $text;
 		$inputWords = $this->getWords();
 		$outputWords = [];	
-		
-//		$wordTranslator = new $this->wordTranslatorClass();
 	
 		foreach($inputWords as $wordText)
 		{	
