@@ -1,8 +1,15 @@
 <?php 
 namespace Gbs\Translator;
 
-// This class handles all the "per word" processing needed for translation.
-class Word
+class Dialect
+{
+	public $separator;
+	public $vowelSuffix;
+	public $consonantSuffix;	
+}
+
+// This class handles all the "per word" processing needed for Pig Latin translation.
+class WordTranslator implements iWordTranslator
 {
 	private $text;			// Contains the original text of the word.
 	private $lowerCase;		// Contains the text of the word in lowercase.
@@ -12,20 +19,30 @@ class Word
 	private static $vowels = 'aeiou';
 	private static $otherConsononts = 'qu';		// Treat this as a consonant group.
 	private static $regex = null;
-
-	public function __construct($word)
-	{
-		$this->text = $word;
-		$this->lowerCase = strtolower($word);
+	private $dialect = null;
 	
-		// Avoid re-initialising the static data for every word.
+	public function __construct()
+	{	
+		// Avoid re-initialising the static data multiple times.
 		if (is_null(self::$regex))
 		{		
 			self::$regex = new \stdClass();
 			self::$regex->vowel = '/^(['.self::$vowels.']+)(.*)/';
 			self::$regex->consonant = '/^([^'.self::$vowels.']*)(.*)/';
 			self::$regex->otherConsononts = '/^('.self::$otherConsononts.'+)(.*)/';
+			
+			$defaultDialect = new Dialect();
+			$defaultDialect->separator = "-";
+			$defaultDialect->vowelSuffix = "al";
+			$defaultDialect->consonantSuffix = "ay";
+			
+			$this->setDialect($defaultDialect);
 		}
+	}
+	
+	public function setDialect($dialect)
+	{
+		$this->dialect = $dialect;
 	}
 	
 	// Return true if the word starts with a vowel.
@@ -47,21 +64,23 @@ class Word
 	}
 	
 	// Return the translation of the word's text.
-	public function translate()
+	public function translate($word)
 	{
-		$word = $this->lowerCase;
+		$this->text = $word;
+		$word = strtolower($word);
+		$this->lowerCase = $word;
 		
 		if ($this->startsWithVowel())
 		{
-			$word .= "-ay";
+			$word .= $this->dialect->separator.$this->dialect->vowelSuffix;
 		}
 		elseif ($this->startsWithOtherConsonant())
 		{	
-			$word = preg_replace(self::$regex->otherConsononts, "$2-$1ay", $word);
+			$word = preg_replace(self::$regex->otherConsononts, "$2{$this->dialect->separator}$1{$this->dialect->consonantSuffix}", $word);
 		}
 		else
 		{
-			$word = preg_replace(self::$regex->consonant, "$2-$1ay", $word);
+			$word = preg_replace(self::$regex->consonant, "$2{$this->dialect->separator}$1{$this->dialect->consonantSuffix}", $word);
 		}
 		
 		if ($this->isCapitalized())
