@@ -1,0 +1,38 @@
+{
+    "name": "Gbs/PLTranslate",
+    "description": "An English to Pig Latin Translator",
+    "keywords": [
+        "pig latin", "translation"
+    ],
+    "homepage": "https://github.com/rad77/PLTranslate",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Greg Sharpe",
+            "email": "greg@nowhere.yet",
+            "homepage": "http://somewhere.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gbs\\PLDiffbot\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Swader\\PLTranslate\\Test\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

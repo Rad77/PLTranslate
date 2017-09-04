@@ -17,7 +17,8 @@ TODO:
 */
 
 // Tests.
-$englishText = "This is a simple test of English to Pig Latin translation. Also test that 'quote' is ok.";
+$englishText1 = "This is a simple test of English to Pig Latin translation.";
+$englishText2 = " Also test that 'quote' is ok.";
 
 // Create a Pig Latin WordTranslator.
 $wordTranslator = new Translation\PLWordTranslator();
@@ -34,9 +35,17 @@ $wordTranslator->setDialect($dialect);
 $pigLatinTranslator = new Translation\Translator($wordTranslator);
 
 // Translate some test data.
-$pigLatinText = $pigLatinTranslator->translate($englishText);
+$pigLatinText = $pigLatinTranslator->translate($englishText1);
 
-ECHO "$englishText\n";
+ECHO "Test 1:\n";
+ECHO "\t$englishText1\n";
 ECHO "In Pig Latin:\n";
-ECHO "$pigLatinText\n";
+ECHO "\t$pigLatinText\n";
+
+$pigLatinText = $pigLatinTranslator->translate($englishText2);
+
+ECHO "Test 2:\n";
+ECHO "\t$englishText2\n";
+ECHO "In Pig Latin:\n";
+ECHO "\t$pigLatinText\n";
 
