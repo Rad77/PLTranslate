@@ -1,18 +1,8 @@
 <?php 
-require_once("src/Translator.php");
-require_once("src/PLWordTranslator.php");
+
+require_once("vendor/autoload.php");
 
 use Gbs\Translation;
-
-/*
-TODO:
-
-- Add auto load
-- Swap tabs for spaces.
-- Explain that faster more memory efficient would be to process the input serially, parsing the input string chunk-by-chunk
-  and spitting out the translation.  For processing very large inputs from file this could load and process from an internal buffer
-
-*/
 
 function getResultMessage($output, $expects)
 {

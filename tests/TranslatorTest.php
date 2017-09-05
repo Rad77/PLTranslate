@@ -1,8 +1,6 @@
 <?php
-require_once("src/Translator.php");
-require_once("src/PLWordTranslator.php");
-
 use PHPUnit\Framework\TestCase;
+
 use Gbs\Translation;
 
 /**
@@ -33,7 +31,7 @@ final class TranslatorTest extends TestCase
 	}
 
 	// Test simple translation.
-	public function testExpectTest1()
+	public function testSimpleInput()
     {
 		$input = "This is a simple test of English to Pig Latin translation.";
 		$output = "Isthay isway away implesay esttay ofway Englishway otay Igpay Atinlay anslationtray.";
@@ -43,7 +41,7 @@ final class TranslatorTest extends TestCase
     }
 	
 	// Test 'qu' consonant group.
-	public function testExpectTest2()
+	public function testQuConsonantGroup()
     {
 		$input = "Test that the word 'quote' is translated ok.";
 		$output = "Esttay atthay ethay ordway 'otequay' isway anslatedtray okway.";
@@ -53,7 +51,7 @@ final class TranslatorTest extends TestCase
     }
 	
 	// Test hyphenated words.
-	public function testExpectTest3()
+	public function testHyphenatedWord()
     {
 		$input = "Test that the hyphenated words like 'in-laws' are translated ok.";
 		$output = "Esttay atthay ethay enatedhyphay ordsway ikelay 'inway-awslay' areway anslatedtray okway.";	
@@ -63,7 +61,7 @@ final class TranslatorTest extends TestCase
     }
 	
 	// Test empty input string.
-	public function testExpectTest4()
+	public function testEmptyInput()
     {
 		$input = "";
 		$output = "";
@@ -73,7 +71,7 @@ final class TranslatorTest extends TestCase
     }
 	
 	// Test difficult/nonsense input string.
-	public function testExpectTest5()
+	public function testSingleCharacters()
     {
 		$input = "a b c d e f g h i j k l m n o p q r s t u v w x y z";
 		$output = "away bay cay day eway fay gay hay iway jay kay lay may nay oway pay qay ray say tay uway vay way xay yay zay";
@@ -83,7 +81,7 @@ final class TranslatorTest extends TestCase
     }
 	
 	// Test extended whitespace input string.
-	public function testExpectTest6()
+	public function testExtendedWhitespace()
     {
 		$input = "     big...  \t\t ...gaps\n       and other ws\n";
 		$output = "     igbay...  \t\t ...apsgay\n       andway otherway wsay\n";

@@ -1,5 +1,5 @@
 {
-    "name": "Gbs/PLTranslate",
+    "name": "Gbs/Translation",
     "description": "An English to Pig Latin Translator",
     "keywords": [
         "pig latin", "language", "translation"
@@ -22,13 +22,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Gbs\\PLTranslate\\": "src"
+            "Gbs\\Translation\\": "src"
 			
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Gbs\\PLTranslate\\Test\\": "tests"
+            "Gbs\\Translation\\Test\\": "tests"
         }
     },
     "extra": {

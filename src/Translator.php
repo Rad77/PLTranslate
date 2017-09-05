@@ -1,8 +1,10 @@
 <?php 
 namespace Gbs\Translation;
 
-// TODO: Move this to a bootstrap?
+use Gbs\Translation;
 
+// TODO: Put this in a bootstrap file?
+/*
 // Override the error handling, so that that we can catch everything.
 if(!function_exists("generalErrorHandler")) {
 	function generalErrorHandler($errorNumber, $errorString, $errorFile, $errorLine) 
@@ -11,12 +13,7 @@ if(!function_exists("generalErrorHandler")) {
 	}
 	set_error_handler("generalErrorHandler", E_ALL);
 }
-
-interface iWordTranslator
-{
-	public function translate($word);
-	public function setDialect($dialect);
-}
+*/
 
 class Translator
 {	
@@ -25,7 +22,7 @@ class Translator
 	
 	public function __construct($wordTranslator)
 	{
-// ToDO: enforce the iWordTranslator interface on this object somehow.		
+// ToDO: enforce the IWordTranslator interface on this object somehow.		
 		$this->wordTranslator = $wordTranslator;
 	}
 	

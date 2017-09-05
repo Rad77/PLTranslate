@@ -1,15 +1,10 @@
 <?php 
 namespace Gbs\Translation;
 
-class Dialect
-{
-	public $separator;
-	public $vowelSuffix;
-	public $consonantSuffix;	
-}
+use Gbs\Translation;
 
 // This class handles all the "per word" processing needed for Pig Latin translation.
-class PLWordTranslator implements iWordTranslator
+class PLWordTranslator implements IWordTranslator
 {
 	private $text;			// Contains the original text of the word.
 	private $lowerCase;		// Contains the text of the word in lowercase.
@@ -19,25 +14,25 @@ class PLWordTranslator implements iWordTranslator
 	private static $vowels = 'aeiou';
 	private static $otherConsononts = 'qu';		// Treat this as a consonant group.
 	private static $regex = null;
-	
 	private $dialect = null;
 	
 	public function __construct()
 	{	
 		// Avoid re-initialising the static data multiple times.
-		if (is_null(self::$regex)) {		
+		if (is_null(self::$regex))
+		{		
 			self::$regex = new \stdClass();
 			self::$regex->vowel = '/^(['.self::$vowels.']+)(.*)/';
 			self::$regex->consonant = '/^([^'.self::$vowels.']*)(.*)/';
 			self::$regex->otherConsononts = '/^('.self::$otherConsononts.'+)(.*)/';
-		}	
-		
-		$defaultDialect = new Dialect();
-		$defaultDialect->separator = "-";
-		$defaultDialect->vowelSuffix = "ay";
-		$defaultDialect->consonantSuffix = "ay";
-		
-		$this->dialect = $defaultDialect;
+			
+			$defaultDialect = new Dialect();
+			$defaultDialect->separator = "-";
+			$defaultDialect->vowelSuffix = "al";
+			$defaultDialect->consonantSuffix = "ay";
+			
+			$this->dialect = $defaultDialect;
+		}
 	}
 	
 	public function setDialect($dialect)
@@ -66,24 +61,26 @@ class PLWordTranslator implements iWordTranslator
 	// Return the translation of the word's text.
 	public function translate($word)
 	{
-		try	{
-			$this->text = $word;
-			$word = strtolower($word);
-			$this->lowerCase = $word;
-			
-			if ($this->startsWithVowel()) {
-				$word .= $this->dialect->separator.$this->dialect->vowelSuffix;
-			} elseif ($this->startsWithOtherConsonant()) {	
-				$word = preg_replace(self::$regex->otherConsononts, "$2{$this->dialect->separator}$1{$this->dialect->consonantSuffix}", $word);
-			} else {
-				$word = preg_replace(self::$regex->consonant, "$2{$this->dialect->separator}$1{$this->dialect->consonantSuffix}", $word);
-			}
-			
-			if ($this->isCapitalized())	{
-				$word = ucfirst($word);
-			}
-		} catch (\Exception $exception) {
-			throw new \Exception("Translation of word \"$word\" failed");
+		$this->text = $word;
+		$word = strtolower($word);
+		$this->lowerCase = $word;
+		
+		if ($this->startsWithVowel())
+		{
+			$word .= $this->dialect->separator.$this->dialect->vowelSuffix;
+		}
+		elseif ($this->startsWithOtherConsonant())
+		{	
+			$word = preg_replace(self::$regex->otherConsononts, "$2{$this->dialect->separator}$1{$this->dialect->consonantSuffix}", $word);
+		}
+		else
+		{
+			$word = preg_replace(self::$regex->consonant, "$2{$this->dialect->separator}$1{$this->dialect->consonantSuffix}", $word);
+		}
+		
+		if ($this->isCapitalized())
+		{
+			$word = ucfirst($word);
 		}
 		
 		return $word;
