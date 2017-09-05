@@ -3,7 +3,7 @@ namespace Gbs\Translation;
 
 class Dialect
 {
-	public $separator;
-	public $vowelSuffix;
-	public $consonantSuffix;	
+    public $separator;
+    public $vowelSuffix;
+    public $consonantSuffix;    
 }

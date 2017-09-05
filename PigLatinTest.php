@@ -4,6 +4,17 @@ require_once("vendor/autoload.php");
 
 use Gbs\Translation;
 
+// Override the error handling, so that that we can catch everything.
+// This should be in a bootstrap file.
+if(!function_exists("generalErrorHandler")) {
+    function generalErrorHandler($errorNumber, $errorString, $errorFile, $errorLine) 
+    {
+        throw new ErrorException($errorString, $errorNumber, 0, $errorFile, $errorLine);
+    }
+    set_error_handler("generalErrorHandler", E_ALL);
+}
+
+
 function getResultMessage($output, $expects)
 {
 	if ($output == $expects) {
