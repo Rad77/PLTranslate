@@ -2,7 +2,7 @@
     "name": "Gbs/PLTranslate",
     "description": "An English to Pig Latin Translator",
     "keywords": [
-        "pig latin", "translation"
+        "pig latin", "language", "translation"
     ],
     "homepage": "https://github.com/rad77/PLTranslate",
     "license": "MIT",
@@ -22,12 +22,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Gbs\\PLDiffbot\\": "src"
+            "Gbs\\PLTranslate\\": "src"
+			
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Swader\\PLTranslate\\Test\\": "tests"
+            "Gbs\\PLTranslate\\Test\\": "tests"
         }
     },
     "extra": {
@@ -35,4 +36,5 @@
             "dev-master": "1.0-dev"
         }
     }
+
 }
