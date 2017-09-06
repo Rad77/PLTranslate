@@ -1,6 +1,17 @@
 <?php 
 namespace Gbs\Translation;
 
+// TODO: Move this to a bootstrap?
+
+// Override the error handling, so that that we can catch everything.
+if(!function_exists("generalErrorHandler")) {
+	function generalErrorHandler($errorNumber, $errorString, $errorFile, $errorLine) 
+	{
+		throw new ErrorException($errorString, $errorNumber, 0, $errorFile, $errorLine);
+	}
+	set_error_handler("generalErrorHandler", E_ALL);
+}
+
 interface iWordTranslator
 {
 	public function translate($word);
@@ -10,24 +21,27 @@ interface iWordTranslator
 class Translator
 {	
 	private $wordTranslator;
-	
 	private $sourceText;
 	
 	public function __construct($wordTranslator)
 	{
+// ToDO: enforce the iWordTranslator interface on this object somehow.		
 		$this->wordTranslator = $wordTranslator;
 	}
 	
 	// Translate and return the source text.
 	public function translate($text)
 	{
-		$this->sourceText = $text;
-		$inputWords = $this->getWords();
-		$outputWords = [];	
-	
-		foreach($inputWords as $wordText)
-		{	
-			$outputWords[] = $this->wordTranslator->translate($wordText);
+		try {
+			$this->sourceText = $text;
+			$inputWords = $this->getWords();
+			$outputWords = [];	
+		
+			foreach ($inputWords as $wordText) {	
+				$outputWords[] = $this->wordTranslator->translate($wordText);
+			}
+		} catch (\Exception $exception) {
+			throw new \Exception("Translation failed");			
 		}
 		
 		return $this->reconstructText($outputWords, $inputWords);
@@ -36,18 +50,21 @@ class Translator
 	// Returns the original string with the words replaced by their translations.
 	private function reconstructText($outputWords, $inputWords)
 	{
-		$outputText = $this->sourceText;
-		
-		$startPos = 0;
-		
-		// Replace each word in the original string with the translated equivalent.
-		for($i = 0; $i < count($inputWords); $i++)
-		{
-			$startPos = $this->replaceFirstMatch($startPos, $inputWords[$i], $outputWords[$i], $outputText);	
+		try	{
+			$outputText = $this->sourceText;
 			
-			// Move the start point past the newly replaced word, so that there is no chance of replacing 
-			// the wrong instance of the target string.
-			$startPos += strlen($outputWords[$i]);
+			$startPos = 0;
+			
+			// Replace each word in the original string with the translated equivalent.
+			for ($i = 0; $i < count($inputWords); $i++) {
+				$startPos = $this->replaceFirstMatch($startPos, $inputWords[$i], $outputWords[$i], $outputText);	
+				
+				// Move the start point past the newly replaced word, so that there is no chance of replacing 
+				// the wrong instance of the target string.
+				$startPos += strlen($outputWords[$i]);
+			}
+		} catch (\Exception $exception) {
+			throw new \Exception("Construction of translated text failed");			
 		}
 		
 		return $outputText;
@@ -58,12 +75,15 @@ class Translator
 	// (which will become the next startPos)
 	private function replaceFirstMatch($startPos, $from, $to, &$text)
 	{	
-		$pos = strpos($text, $from, $startPos);
-		
-		// This test should never fail.
-		if ($pos !== false) 
-		{
+		try	{
+			$pos = strpos($text, $from, $startPos);
+			
+			assert($pos !== false); 	// This should never fail.
+			
 			$text = substr_replace($text, $to, $pos, strlen($from));
+		}
+		catch (\Exception $exception) {
+			throw new \Exception("Replacement of word \"$from\" with \"$to\" failed");			
 		}
 		
 		return $pos;
